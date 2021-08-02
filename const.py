@@ -4,9 +4,9 @@ from telegram.ext.utils import types
 TOKEN = '1921581075:AAFS9AfBitFlo_Xx1gzXE2NYiECB4tBZQrg'
 
 zakaz_list = []
-phone = [KeyboardButton(text = 'ОТправить номер телефона',request_contact=True)]
+phone = [KeyboardButton(text = 'Отправить номер телефона',request_contact=True)]
 
-order_button = [KeyboardButton(text = 'Сделать заказ')]
+order_button = [KeyboardButton(text = 'Сделать заказ'),KeyboardButton(text = 'Мой заказ')]
 top_button = [KeyboardButton(text='Позвать Таймгарда🏃')]
 mid_button = [KeyboardButton(text='Продуть Кальян💨')]
 bot_button = [KeyboardButton(text='Попросить счет💵')]
@@ -14,6 +14,12 @@ kitchen_button = [KeyboardButton(text='Кухня')]
 shisha_button = [KeyboardButton(text='Кальян')]
 bar_button = [KeyboardButton(text='Бар')]
 add_zakaz = [KeyboardButton(text = 'Добавить в заказ')]
+ready = [KeyboardButton(text = 'Заказать✅')]
+
+
+korzina = [KeyboardButton(text = 'Мой заказ')]
+payme_click = [KeyboardButton(text = 'Payme'),KeyboardButton(text = 'Click')]
+nal = [KeyboardButton(text = 'Наличные')]
 
 # все по кальяну
 
@@ -29,8 +35,9 @@ folga = [KeyboardButton(text= 'Фольга')]
 ice = [KeyboardButton(text = 'С холодком')]
 no_ice = [KeyboardButton(text = 'Без Холодка')]
 yes =[KeyboardButton(text = 'Да')]
-no = [KeyboardButton(text = 'Выбрать что-нибудь еще')]
+no = [KeyboardButton(text = 'Главное меню')]
 back = [KeyboardButton(text='Назад')]
+delete = [KeyboardButton(text = 'Очистить заказ')]
 
 # все по кухне
 
@@ -47,8 +54,8 @@ ramen_mastava = [KeyboardButton(text ='Рамен'),KeyboardButton(text ='Мас
 #КАТЕГОРИЯ ГОРЯЧЕЕ
 
 ribay_medalion = [KeyboardButton(text ='Рибай стейк'),KeyboardButton(text ='Медальоны')]
-beef_cream_chiken_veg = [KeyboardButton(text ='Говядина в слив соусе'),KeyboardButton(text ='Курица на гриле')]
-home_potato_chineese_meat = [KeyboardButton(text ='Картошка по-домашнему'),KeyboardButton(text ='Мясо по-китайски')]
+beef_cream_chiken_veg = [KeyboardButton(text ='Говядина в сливочном соусе'),KeyboardButton(text ='Курица на грилле')]
+home_potato_chineese_meat = [KeyboardButton(text ='Картошка по-домашнему'),KeyboardButton(text ='Мясо по-китайский')]
 chicken_steak = [KeyboardButton(text ='Стейк куриный'),KeyboardButton(text ='Назад')]
 
 #КАТЕГОРИЯ ПАСТЫ

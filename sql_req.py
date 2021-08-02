@@ -9,39 +9,41 @@ TG_ID INTEGER,
 First_Name STRING,
 Phone INTEGER ,
 TABLE_NUMB INTEGER,
-Mark LIST,
-Zakaz LIST,
+Mark INTEGER ,
+Zakaz STRING,
+total_price INTEGER ,
 Stage INTEGER )
 ''')
 
 
 first_insert = '''
-INSERT INTO Users VALUES (0,'{}','{}',0,0,0,'[]',0)
+INSERT INTO Users VALUES (0,'{}','{}',0,0,0,'',0,0)
 '''
 
 
-cur.execute('''
-CREATE TABLE IF NOT EXISTS Goods
-(
-Tovar STRING,
-Opisanie STRING,
-Cost INTEGER,
-Amount INTEGER,
-Photo STRING
-)
-''')
 
+update_total_price = '''
+UPDATE Users
+SET total_price = '{}'
+WHERE TG_ID = '{}'
+'''
 
-zakaz = '''
-SELECT Zakaz
+set_total_price = '''
+SELECT total_price
 FROM Users
 WHERE TG_ID = '{}'
 '''
 
-
-update_zakaz = '''
+sql_set_zakaz = '''
 UPDATE Users
 SET Zakaz = '{}'
+WHERE TG_ID = '{}'
+'''
+
+
+sql_get_zakaz = '''
+SELECT Zakaz
+FROM Users
 WHERE TG_ID = '{}'
 '''
 
@@ -50,11 +52,7 @@ SELECT Opisanie
 FROM Goods
 WHERE Tovar = '{}'
 '''
-cost = '''
-SELECT Cost
-FROM Goods
-WHERE Tovar = '{}'
-'''
+
 
 photo = '''
 SELECT Photo
@@ -62,7 +60,11 @@ FROM Goods
 WHERE Tovar = '{}'
 '''
 
-
+cost = '''
+SELECT Cost
+FROM Goods
+WHERE Tovar = '{}'
+'''
 
 
 
@@ -109,5 +111,12 @@ WHERE TG_ID = '{}'
 update_phone_no = '''
 UPDATE Users
 SET Phone = '{}'
+WHERE TG_ID = '{}'
+'''
+
+
+delete_zakaz = '''
+UPDATE Users
+SET Zakaz = ''
 WHERE TG_ID = '{}'
 '''
