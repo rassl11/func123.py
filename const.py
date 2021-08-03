@@ -90,7 +90,7 @@ brauni_back = [KeyboardButton(text = 'Брауни'),KeyboardButton(text = 'На
 
 cool_hot = [KeyboardButton(text ='Кофе'),KeyboardButton(text = 'Чаи')] # o-eng
 coffee = [KeyboardButton(text = 'Лимонады'),KeyboardButton(text = 'Напитки')]
-tea = [KeyboardButton(text='Черный чай'),KeyboardButton(text='Зеленый чай')]
+tea = [KeyboardButton(text='Черный чай'),KeyboardButton(text='Чай зеленый')]
 brand_tea = [KeyboardButton(text='Наглый фрукт'),KeyboardButton(text='Ягодная бергамония')]
 sugar = [KeyboardButton(text='С сахаром'),KeyboardButton(text='Без')]
 limon = [KeyboardButton(text='С лимоном'),KeyboardButton(text='Без лимона')]

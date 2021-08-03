@@ -81,7 +81,23 @@ def text_answer(update,context):
 #все про кальяны
 
     elif text == 'Кальян':
-        context.bot.send_message(chat_id = user_id,text = "Какой крепости кальян",reply_markup = ReplyKeyboardMarkup([easy,medium,rare,back],resize_keyboard=True))
+
+        conn = sqlite3.connect('identifier.sqlite')
+        cur = conn.cursor()
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        print(zakaz)
+        cur.execute(update_stage_in.format(1, user_id))
+        cena = cur.execute(cost.format('Кальян')).fetchall()
+        cena = cena[0][0]
+        zakaz = zakaz + '\n' + 'Кальян' + ' - ' + str(cena)
+        a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
+        itog = cur.execute(set_total_price.format(user_id)).fetchall()
+        itog = itog[0][0]
+        itog = itog + cena
+        cur.execute(update_total_price.format(itog,user_id))
+        context.bot.send_message(chat_id=user_id, text="Какой крепости кальян",
+                                 reply_markup=ReplyKeyboardMarkup([easy, medium, rare, back], resize_keyboard=True))
 
 
 
@@ -89,7 +105,14 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 1:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        zakaz = zakaz.split()
+        zakaz = zakaz[0:-3]
+        zakaz = ' '.join(zakaz)
+        cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         cur.execute(update_stage_in.format(1001,user_id))
+        cur.execute(update_total_price.format(0,user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([kitchen_button, shisha_button, bar_button, back],
                                                                   resize_keyboard=True))
@@ -110,7 +133,14 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 2:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        zakaz = zakaz.split()
+        zakaz = zakaz[0:-1]
+        zakaz = ' '.join(zakaz)
+        cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         cur.execute(update_stage_in.format(1, user_id))
+        a = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
         context.bot.send_message(chat_id=user_id, text='Какой крепости кальян',
                                  reply_markup=ReplyKeyboardMarkup([easy,medium,rare,back],resize_keyboard=True))
 
@@ -123,6 +153,7 @@ def text_answer(update,context):
         zakaz = zakaz[0][0]
         print(zakaz)
 
+
         zakaz = zakaz + '\n' + text
         a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         context.bot.send_message(chat_id=user_id, text='Тип курения?',
@@ -132,6 +163,12 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 3:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        zakaz = zakaz.split()
+        zakaz = zakaz[0:-1]
+        zakaz = ' '.join(zakaz)
+        cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         cur.execute(update_stage_in.format(2, user_id))
         context.bot.send_message(chat_id=user_id, text='Что по вкусам?',
                                  reply_markup = ReplyKeyboardMarkup([berry,fruit,desert,citrus,back],resize_keyboard=True))
@@ -148,12 +185,21 @@ def text_answer(update,context):
 
         zakaz = zakaz + '\n' + text
         a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
+
+        print(a)
+
         context.bot.send_message(chat_id = user_id,text = 'С холодком или без?',reply_markup = ReplyKeyboardMarkup([ice,no_ice,back],resize_keyboard=True))
 
 
     elif text == 'Назад' and stage == 4:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        zakaz = zakaz.split()
+        zakaz = zakaz[0:-1]
+        zakaz = ' '.join(zakaz)
+        cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         cur.execute(update_stage_in.format(3, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup = ReplyKeyboardMarkup([folga,kolaud,back],resize_keyboard=True))
@@ -181,22 +227,7 @@ def text_answer(update,context):
                                  reply_markup = ReplyKeyboardMarkup([ice,no_ice,back],resize_keyboard=True))
 
     elif text == 'Добавить в заказ' and stage == 5:
-        conn = sqlite3.connect('identifier.sqlite')
-        cur = conn.cursor()
-        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
-        zakaz = zakaz[0][0]
-        print(zakaz)
-        cur.execute(update_stage_in.format(7, user_id))
-        cena = cur.execute(cost.format('Кальян')).fetchall()
-        cena = cena[0][0]
-        zakaz = zakaz + '\n' + 'Кальян' + ' - ' + str(cena)
-        a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
-        itog = cur.execute(set_total_price.format(user_id)).fetchall()
-        itog = itog[0][0]
-        itog = itog + cena
-        cur.execute(update_total_price.format(itog, user_id))
-        conn = sqlite3.connect('identifier.sqlite')
-        cur = conn.cursor()
+
         context.bot.send_message(chat_id = user_id, text = 'Продолжим?',
                                  reply_markup=ReplyKeyboardMarkup([kitchen_button, shisha_button, bar_button,korzina ,back],
                                                                   resize_keyboard=True))
@@ -293,28 +324,22 @@ def text_answer(update,context):
         zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
         zakaz = zakaz[0][0]
         print(zakaz)
+        cur.execute(update_stage_in.format(7, user_id))
         cena = cur.execute(cost.format('Кук-си')).fetchall()
         cena = cena[0][0]
+
 
 
         zakaz = zakaz + '\n' + 'Кук-си' + ' - ' + str(cena)
         a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         conn.commit()
-        context.bot.send_message(chat_id=user_id, text='Кук-си добавлена  в заказ'.format(text))
+        context.bot.send_message(chat_id=user_id, text='Кук-си добавлена  в заказ'.format(text),reply_markup = ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava,korzina,back],resize_keyboard=True))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
         cur.execute(update_total_price.format(itog,user_id))
 
 
-
-    elif text == 'Назад' and stage ==100:
-        conn = sqlite3.connect('identifier.sqlite')
-        cur = conn.cursor()
-        cur.execute(update_stage_in.format(7, user_id))
-        context.bot.send_message(chat_id=user_id, text='Наши супы',
-                                 reply_markup=ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava, back,korzina],
-                                                                  resize_keyboard=True))
 
     elif text =='Рамен' and stage == 7:
         conn = sqlite3.connect('identifier.sqlite')
@@ -337,6 +362,7 @@ def text_answer(update,context):
         zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
         zakaz = zakaz[0][0]
         print(zakaz)
+        cur.execute(update_stage_in.format(7, user_id))
         cena = cur.execute(cost.format('Рамен')).fetchall()
         cena = cena[0][0]
         print(cena)
@@ -344,22 +370,13 @@ def text_answer(update,context):
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
-        context.bot.send_message(chat_id = user_id,text = 'Рамен добавлен в заказ'.format(text))
+        context.bot.send_message(chat_id = user_id,text = 'Рамен добавлен в заказ'.format(text),reply_markup = ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava,korzina,back],resize_keyboard=True))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
         cur.execute(update_total_price.format(itog,user_id))
 
 
-
-
-    elif text == 'Назад' and stage ==102:
-        conn = sqlite3.connect('identifier.sqlite')
-        cur = conn.cursor()
-        cur.execute(update_stage_in.format(7, user_id))
-        context.bot.send_message(chat_id=user_id, text='Наши супы',
-                                 reply_markup=ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava, back,korzina],
-                                                                  resize_keyboard=True))
 
     elif text =='Мастава' and stage == 7:
         conn = sqlite3.connect('identifier.sqlite')
@@ -375,26 +392,16 @@ def text_answer(update,context):
         zakaz = zakaz[0][0]
         cena = cur.execute(cost.format('Мастава')).fetchall()
         cena = cena[0][0]
-        zakaz = zakaz + '\n' + 'Рамен' + ' - ' + str(cena)
+        zakaz = zakaz + '\n' + 'Мастава' + ' - ' + str(cena)
+        cur.execute(update_stage_in.format(7, user_id))
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
         cur.execute(update_total_price.format(itog,user_id))
 
-        context.bot.send_message(chat_id = user_id,text = 'Мастава добавлена в заказ'.format(text))
+        context.bot.send_message(chat_id = user_id,text = 'Мастава добавлена в заказ'.format(text),reply_markup = ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava,korzina,back],resize_keyboard=True))
 
-
-
-
-
-    elif text == 'Назад' and stage ==101:
-        conn = sqlite3.connect('identifier.sqlite')
-        cur = conn.cursor()
-        cur.execute(update_stage_in.format(7, user_id))
-        context.bot.send_message(chat_id=user_id, text='Наши супы',
-                                 reply_markup=ReplyKeyboardMarkup([okroshka_kuksi,ramen_mastava, back,korzina],
-                                                                  resize_keyboard=True))
 
 #ВСЕ ПРО ГОРЯЧЕЕ
 
@@ -433,6 +440,7 @@ def text_answer(update,context):
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
+        cur.execute(update_stage_in.format(9, user_id))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
@@ -444,7 +452,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 104:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -466,7 +474,7 @@ def text_answer(update,context):
         cena = cena[0][0]
 
         zakaz = zakaz + '\n' + 'Медальоны' + ' - ' + str(cena)
-
+        cur.execute(update_stage_in.format(9, user_id))
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
@@ -480,7 +488,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 105:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -506,6 +514,7 @@ def text_answer(update,context):
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
+        cur.execute(update_stage_in.format(9, user_id))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
@@ -519,7 +528,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 106:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -540,6 +549,7 @@ def text_answer(update,context):
         cena = cur.execute(cost.format('Курица на грилле')).fetchall()
         cena = cena[0][0]
         print(cena)
+        cur.execute(update_stage_in.format(9, user_id))
         zakaz = zakaz + '\n' + 'Курица на грилле' + ' - ' + str(cena)
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
@@ -556,7 +566,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 107:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -581,6 +591,7 @@ def text_answer(update,context):
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
+        cur.execute(update_stage_in.format(9, user_id))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
@@ -593,7 +604,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 108:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -617,6 +628,7 @@ def text_answer(update,context):
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
+        cur.execute(update_stage_in.format(9, user_id))
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
         itog = itog + cena
@@ -629,7 +641,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 109:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup([ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
                                                                   resize_keyboard=True))
@@ -652,6 +664,7 @@ def text_answer(update,context):
         print(cena)
         zakaz = zakaz + '\n' + 'Стейк куриный' + ' - ' + str(cena)
         print(zakaz)
+        cur.execute(update_stage_in.format(9, user_id))
         a = cur.execute(sql_set_zakaz.format(zakaz,user_id)).fetchall()
         print(a)
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
@@ -666,7 +679,7 @@ def text_answer(update,context):
     elif text == 'Назад' and stage == 110:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(9, user_id))
+        cur.execute(update_stage_in.format(6, user_id))
         context.bot.send_message(chat_id=user_id, text='Выбирай',
                                  reply_markup=ReplyKeyboardMarkup(
                                      [ribay_medalion,beef_cream_chiken_veg,home_potato_chineese_meat,chicken_steak,korzina],
@@ -1467,10 +1480,20 @@ def text_answer(update,context):
                                  reply_markup=ReplyKeyboardMarkup([tea, brand_tea,korzina, back],
                                                                   resize_keyboard=True))
 
-    elif text == 'Зеленый чай':
+    elif text == 'Чай зеленый':
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
         cur.execute(update_stage_in.format(283, user_id))
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        print(zakaz)
+        cena = cur.execute(cost.format('Чай зеленый')).fetchall()
+        cena = cena[0][0]
+        print(cena)
+        zakaz = zakaz + '\n' + 'Чай зеленый' + ' - ' + str(cena)
+        print(zakaz)
+        a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
+        print(a)
         context.bot.send_message(chat_id=user_id, text='С Сахаром или без?',
                                  reply_markup=ReplyKeyboardMarkup([sugar,korzina, back], resize_keyboard=True))
 
@@ -1487,17 +1510,8 @@ def text_answer(update,context):
     elif text == 'С Сахаром или без?' and stage == 283:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
-        zakaz = zakaz[0][0]
-        print(zakaz)
-        cena = cur.execute(cost.format('Зеленый чай')).fetchall()
-        cena = cena[0][0]
-        print(cena)
-        zakaz = zakaz + '\n' + 'Зеленый чай' + ' - ' + str(cena)
-        print(zakaz)
-        a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
-        print(a)
-        context.bot.send_message(chat_id=user_id, text='Зеленый чай добавлен в заказ'.format(text))
+
+        context.bot.send_message(chat_id=user_id, text='дальше'.format(text))
 
 
     elif text =='С сахаром':
@@ -1506,11 +1520,7 @@ def text_answer(update,context):
         cur.execute(update_stage_in.format(29, user_id))
         zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
         zakaz = zakaz[0][0]
-        print(zakaz)
-        cena = cur.execute(cost.format('С сахаром')).fetchall()
-        cena = cena[0][0]
-        print(cena)
-        zakaz = zakaz + '\n' + 'С сахаром' + ' - ' + str(cena)
+        zakaz = zakaz + '\n' + text
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         print(a)
@@ -1523,11 +1533,7 @@ def text_answer(update,context):
         cur.execute(update_stage_in.format(29, user_id))
         zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
         zakaz = zakaz[0][0]
-        print(zakaz)
-        cena = cur.execute(cost.format('Без')).fetchall()
-        cena = cena[0][0]
-        print(cena)
-        zakaz = zakaz + '\n' + 'Без' + ' - ' + str(cena)
+        zakaz = zakaz + '\n' + text
         print(zakaz)
         a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
         print(a)
@@ -1548,6 +1554,13 @@ def text_answer(update,context):
         context.bot.send_message(chat_id=user_id, text='Добавить в корзину',
                                  reply_markup=ReplyKeyboardMarkup([add_zakaz,korzina,back], resize_keyboard=True))
 
+    elif text =='Без лимона':
+        conn = sqlite3.connect('identifier.sqlite')
+        cur = conn.cursor()
+        cur.execute(update_stage_in.format(31, user_id))
+        context.bot.send_message(chat_id=user_id, text='Добавить в корзину',
+                                 reply_markup=ReplyKeyboardMarkup([add_zakaz,korzina,back], resize_keyboard=True))
+
 
     elif text == 'Добавить в заказ' and stage == 30:
         conn = sqlite3.connect('identifier.sqlite')
@@ -1564,14 +1577,21 @@ def text_answer(update,context):
         print(a)
         context.bot.send_message(chat_id=user_id, text='Чай добавлен в заказ'.format(text))
 
-
-
-    elif text =='Без лимона':
+    elif text == 'Добавить в заказ' and stage == 31:
         conn = sqlite3.connect('identifier.sqlite')
         cur = conn.cursor()
-        cur.execute(update_stage_in.format(30, user_id))
-        context.bot.send_message(chat_id=user_id, text='Добавить в корзину',
-                                 reply_markup=ReplyKeyboardMarkup([add_zakaz,korzina,back], resize_keyboard=True))
+        zakaz = cur.execute(sql_get_zakaz.format(user_id)).fetchall()
+        zakaz = zakaz[0][0]
+        print(zakaz)
+        zakaz = zakaz + '\n' + 'Без лимона'
+        print(zakaz)
+        a = cur.execute(sql_set_zakaz.format(zakaz, user_id)).fetchall()
+        print(a)
+        context.bot.send_message(chat_id=user_id, text='Чай добавлен в заказ'.format(text))
+
+
+
+
 
     elif text == 'Добавить в заказ' and stage == 30:
         conn = sqlite3.connect('identifier.sqlite')
@@ -2392,14 +2412,14 @@ def text_answer(update,context):
         context.bot.send_message(chat_id = user_id, text = 'Ваш заказ принят и очень скоро будет готов!',
                                  reply_markup = ReplyKeyboardMarkup([top_button,mid_button,bot_button,order_button],resize_keyboard=True))
         context.bot.send_message(chat_id = 44335784,text = 'Заказ за стол № {} , {}'.format(a[0][0],x))
-        cur.execute(delete_zakaz.format(user_id))
-        cur.execute(update_total_price.format(0, user_id))
+
 
 
 
     elif text == 'Очистить заказ':
         x = cur.execute(delete_zakaz.format(user_id))
         cur.execute(update_total_price.format(0,user_id))
+        cur.execute(update_stage_in.format(1001,user_id))
         context.bot.send_message(chat_id = user_id,text = 'Ваш заказ очищен',reply_markup = ReplyKeyboardMarkup([top_button,mid_button,bot_button,order_button],resize_keyboard=True))
 
 
@@ -2423,6 +2443,8 @@ def text_answer(update,context):
         x = x[0][0]
         itog = cur.execute(set_total_price.format(user_id)).fetchall()
         itog = itog[0][0]
+        cur.execute(delete_zakaz.format(user_id))
+        cur.execute(update_total_price.format(0, user_id))
         a = cur.execute(table_number_in_table.format(user_id)).fetchall()
         context.bot.send_message(chat_id=user_id, text='''Прошу вас, ваш Чек
         
