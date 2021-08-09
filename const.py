@@ -6,18 +6,18 @@ TOKEN = '1921581075:AAFS9AfBitFlo_Xx1gzXE2NYiECB4tBZQrg'
 zakaz_list = []
 phone = [KeyboardButton(text = 'Отправить номер телефона',request_contact=True)]
 
-order_button = [KeyboardButton(text = 'Сделать заказ'),KeyboardButton(text = 'Мой заказ')]
+order_button = [KeyboardButton(text = 'Сделать заказ✍'),KeyboardButton(text = 'Мой заказ📝')]
 top_button = [KeyboardButton(text='Позвать Таймгарда🏃')]
 mid_button = [KeyboardButton(text='Продуть Кальян💨')]
 bot_button = [KeyboardButton(text='Попросить счет💵')]
-kitchen_button = [KeyboardButton(text='Кухня')]
-shisha_button = [KeyboardButton(text='Кальян')]
-bar_button = [KeyboardButton(text='Бар')]
+kitchen_bar = [KeyboardButton(text='Кухня🍽'),KeyboardButton(text='Бар🥤')]
+shisha_button = [KeyboardButton(text='Кальян💨')]
+back_korzina = [KeyboardButton(text='⏪Назад'),KeyboardButton(text='Мой заказ📝')]
 add_zakaz = [KeyboardButton(text = 'Добавить в заказ')]
 ready = [KeyboardButton(text = 'Заказать✅')]
 
 
-korzina = [KeyboardButton(text = 'Мой заказ')]
+korzina = [KeyboardButton(text = 'Мой заказ📝')]
 payme_click = [KeyboardButton(text = 'Payme'),KeyboardButton(text = 'Click')]
 nal = [KeyboardButton(text = 'Наличные')]
 
@@ -36,15 +36,15 @@ ice = [KeyboardButton(text = 'С холодком')]
 no_ice = [KeyboardButton(text = 'Без Холодка')]
 yes =[KeyboardButton(text = 'Да')]
 no = [KeyboardButton(text = 'Главное меню')]
-back = [KeyboardButton(text='Назад')]
+back = [KeyboardButton(text='⏪Назад')]
 delete = [KeyboardButton(text = 'Очистить заказ')]
 
 # все по кухне
 
-soups_hot = [KeyboardButton(text = "Супы"),KeyboardButton(text = 'Горячее')]
-pasta_fasfood = [KeyboardButton(text = 'Пасты'),KeyboardButton(text = 'Фаст-Фуд')]
-salad_garnir = [KeyboardButton(text = 'Салаты'),KeyboardButton(text = 'Гарниры')]
-desserts = [KeyboardButton(text = 'Десерты')]
+soups_hot = [KeyboardButton(text = "Супы🍜"),KeyboardButton(text = 'Вторые блюда🍲')]
+pasta_fasfood = [KeyboardButton(text = 'Пасты🍝'),KeyboardButton(text = 'Фаст-Фуд🥪')]
+salad_garnir = [KeyboardButton(text = 'Салаты🥗'),KeyboardButton(text = 'Гарниры🍟')]
+desserts = [KeyboardButton(text = 'Десерты🍰')]
 
 #категория супы
 
@@ -54,14 +54,14 @@ ramen_mastava = [KeyboardButton(text ='Рамен'),KeyboardButton(text ='Мас
 #КАТЕГОРИЯ ГОРЯЧЕЕ
 
 ribay_medalion = [KeyboardButton(text ='Рибай стейк'),KeyboardButton(text ='Медальоны')]
-beef_cream_chiken_veg = [KeyboardButton(text ='Говядина в сливочном соусе'),KeyboardButton(text ='Курица на грилле')]
-home_potato_chineese_meat = [KeyboardButton(text ='Картошка по-домашнему'),KeyboardButton(text ='Мясо по-китайский')]
-chicken_steak = [KeyboardButton(text ='Стейк куриный'),KeyboardButton(text ='Назад')]
+beef_cream_chiken_veg = [KeyboardButton(text ='Говядина в сливочном соусе'),KeyboardButton(text ='Курица на гриле')]
+home_potato_chineese_meat = [KeyboardButton(text ='Картошка по-домашнему'),KeyboardButton(text ='Мясо по-китайски')]
+chicken_steak = [KeyboardButton(text ='Стейк куриный'),KeyboardButton(text ='⏪Назад')]
 
 #КАТЕГОРИЯ ПАСТЫ
 
-alfredo = [KeyboardButton(text ='Альфредо')]
-boloneze = [KeyboardButton(text ='Болоньезе')]
+alfredo_boloneze = [KeyboardButton(text ='Альфредо'),KeyboardButton(text ='Болоньезе')]
+
 
 #КАТЕГОРИЯ ФАСТ-ФУД
 
@@ -76,23 +76,75 @@ greek_achik = [KeyboardButton(text = 'Греческий салат'),KeyboardBu
 
 grilveg_fries = [KeyboardButton(text = 'Овощи на грилле'),KeyboardButton(text = 'Картофель по-деревенски')]
 ris_derev = [KeyboardButton(text = 'Рис'),KeyboardButton(text = 'Фри')]
-aydaho_back = [KeyboardButton(text = 'Картофель айдахо'),KeyboardButton(text = 'Назад')]
+aydaho_back = [KeyboardButton(text = 'Картофель айдахо'),KeyboardButton(text = '⏪Назад')]
 
 #КАТЕГОРИЯ ДЕСЕРТЫ
 
 medov_chiz = [KeyboardButton(text='Медовик'),KeyboardButton(text='Чизкейк')]
-brauni_back = [KeyboardButton(text = 'Брауни'),KeyboardButton(text = 'Назад')]
+brauni_back = [KeyboardButton(text = 'Брауни'),KeyboardButton(text = '⏪Назад')]
 
 
 #ВСЕ ПО БАРУ
 
-#ЧАИ
+
 
 cool_hot = [KeyboardButton(text ='Кофе'),KeyboardButton(text = 'Чаи')] # o-eng
 coffee = [KeyboardButton(text = 'Лимонады'),KeyboardButton(text = 'Напитки')]
-tea = [KeyboardButton(text='Черный чай'),KeyboardButton(text='Чай зеленый')]
+zakus_alco = [KeyboardButton(text = 'Закуски'),KeyboardButton(text= 'Алкоголь')]
+
+
+#АЛКОГОЛЬ
+hard_light = [KeyboardButton(text = 'Крепкий'),KeyboardButton(text = 'Легкий')]
+kokteli = [KeyboardButton(text = 'Коктейли')]
+
+
+#КРЕПКИЕ
+
+viski_kon = [KeyboardButton(text = 'Виски'),KeyboardButton(text = 'Коньяк')]
+liker_rom = [KeyboardButton(text = 'Ликер'),KeyboardButton(text = 'Ром')]
+djin_tekila = [KeyboardButton(text = 'Джин'),KeyboardButton(text = 'Текила')]
+
+chivas_jag = [KeyboardButton(text = 'Chivas Regal 12'),KeyboardButton(text = 'Jagermeister')]
+jack_tull = [KeyboardButton(text = 'Jack Daniels'),KeyboardButton(text = 'Tullamore Dew')]
+jame_bal = [KeyboardButton(text = 'Jameson'),KeyboardButton(text = "Ballantines")]
+
+
+#КОКТЕЙЛИ
+
+shirin = [KeyboardButton(text = 'Shirins Peach')]
+aper_meva = [KeyboardButton(text = 'Aperol spritz'),KeyboardButton(text = "Meva-Cheva")]
+gin_teq = [KeyboardButton(text = 'Gin tonic'),KeyboardButton(text = "Tequila Sunrise")]
+
+
+#Коньяк
+tanb = [KeyboardButton(text = 'Tanbour')]
+
+
+#РОМ
+
+cpt = [KeyboardButton(text = 'Capitan Morgan')]
+jwray = [KeyboardButton(text = 'J.Wray Gold'),KeyboardButton(text = "J.Wray Silver")]
+
+#ЗАКУСКИ
+
+sul_kurt = [KeyboardButton(text ='Сулугуни'),KeyboardButton(text = 'Курт')]
+pring_mindal = [KeyboardButton(text ='Pringles'),KeyboardButton(text = 'Миндаль')]
+phist_set = [KeyboardButton(text ='Фисташки'),KeyboardButton(text = 'Сэт грызун')]
+
+
+
+
+
+
+
+
+
+
+#ЧАИ
+
+tea = [KeyboardButton(text='Чай черный'),KeyboardButton(text='Чай зеленый')]
 brand_tea = [KeyboardButton(text='Наглый фрукт'),KeyboardButton(text='Ягодная бергамония')]
-sugar = [KeyboardButton(text='С сахаром'),KeyboardButton(text='Без')]
+sugar = [KeyboardButton(text='С сахаром'),KeyboardButton(text='Без сахара')]
 limon = [KeyboardButton(text='С лимоном'),KeyboardButton(text='Без лимона')]
 
 

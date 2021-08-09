@@ -10,17 +10,42 @@ First_Name STRING,
 Phone INTEGER ,
 TABLE_NUMB INTEGER,
 Mark INTEGER ,
+total_zakaz STRING,
 Zakaz STRING,
+price INTEGER,
 total_price INTEGER ,
 Stage INTEGER )
 ''')
 
 
 first_insert = '''
-INSERT INTO Users VALUES (0,'{}','{}',0,0,0,'',0,0)
+INSERT INTO Users VALUES (0,'{}','{}',0,0,0,'','',0,0,0)
+'''
+
+update_total_zakaz = '''
+UPDATE Users 
+SET total_zakaz = '{}'
+WHERE TG_ID = '{}'
+'''
+
+get_total_zakaz = '''
+SELECT total_zakaz
+FROM Users
+WHERE TG_ID = '{}'
 '''
 
 
+get_price = '''
+SELECT price
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_price = '''
+UPDATE Users
+SET price = '{}'
+WHERE TG_ID = '{}'
+'''
 
 update_total_price = '''
 UPDATE Users
@@ -111,6 +136,12 @@ WHERE TG_ID = '{}'
 update_phone_no = '''
 UPDATE Users
 SET Phone = '{}'
+WHERE TG_ID = '{}'
+'''
+
+delete_total_zakaz = '''
+UPDATE Users
+SET total_zakaz = ''
 WHERE TG_ID = '{}'
 '''
 
