@@ -4,23 +4,117 @@ cur = conn.cursor()
 cur.execute('''
 CREATE TABLE IF NOT EXISTS Users
 (
-day_and_time INTEGER,
 TG_ID INTEGER,
 First_Name STRING,
 Phone INTEGER ,
 TABLE_NUMB INTEGER,
-Mark INTEGER ,
 total_zakaz STRING,
 Zakaz STRING,
 price INTEGER,
 total_price INTEGER ,
-Stage INTEGER )
+Stage INTEGER,
+Comment_dish STRING,
+Comment STRING,
+visit INTEGER ,
+cashback INTEGER,
+id_tovara STRING)
+''')
+
+cur.execute('''
+CREATE TABLE IF NOT EXISTS Goods
+(
+id STRING,
+Tovari STRING,
+Opisanie STRING,
+Cost INTEGER ,
+Amount INTEGER,
+Photo STRING
+)
+
 ''')
 
 
-first_insert = '''
-INSERT INTO Users VALUES (0,'{}','{}',0,0,0,'','',0,0,0)
+
+get_id = '''
+SELECT id
+FROM Goods
+WHERE Tovari = '{}'
 '''
+
+get_id_tovara = '''
+SELECT id_tovara
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_id_tovara = '''
+UPDATE Users
+SET id_tovara = '{}'
+WHERE TG_ID = '{}'
+'''
+
+
+
+first_insert = '''
+INSERT INTO Users VALUES ('{}','{}',0,0,'','',0,0,0,'Отсутствует','Отсутствует',0,0,'')
+'''
+
+
+comment_dish = '''
+SELECT Comment_dish
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_dish = '''
+UPDATE Users
+SET Comment_dish = '{}'
+WHERE TG_ID ='{}'
+'''
+
+visit = '''
+SELECT visit
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_visit = '''
+UPDATE Users
+SET visit = '{}'
+WHERE TG_Id = '{}'
+'''
+
+
+cashback = '''
+SELECT cashback
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_cashback = '''
+UPDATE Users
+SET cashback = '{}'
+WHERE TG_ID = '{}'
+'''
+
+first_name = '''
+UPDATE Users
+SET First_name = '{}'
+WHERE TG_ID = '{}'
+'''
+
+comment = '''
+SELECT Comment
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+update_comment ='''
+UPDATE Users
+SET Comment = '{}'
+WHERE TG_ID = '{}'
+'''
+
 
 update_total_zakaz = '''
 UPDATE Users 
@@ -75,20 +169,20 @@ WHERE TG_ID = '{}'
 opisanie = '''
 SELECT Opisanie
 FROM Goods
-WHERE Tovar = '{}'
+WHERE Tovari = '{}'
 '''
 
 
 photo = '''
 SELECT Photo
 FROM Goods
-WHERE Tovar = '{}'
+WHERE Tovari = '{}'
 '''
 
 cost = '''
 SELECT Cost
 FROM Goods
-WHERE Tovar = '{}'
+WHERE Tovari = '{}'
 '''
 
 
@@ -150,4 +244,34 @@ delete_zakaz = '''
 UPDATE Users
 SET Zakaz = ''
 WHERE TG_ID = '{}'
+'''
+
+update_amount = '''
+UPDATE Goods
+SET Amount = '{}'
+WHERE Tovari = '{}'
+'''
+
+blyuda = '''
+SELECT Tovari
+FROM Goods
+'''
+
+
+amount = '''
+SELECT Amount
+FROM Goods
+WHERE Tovari = '{}'
+'''
+
+get_cashbak = '''
+SELECT cashback
+FROM Users
+WHERE TG_ID = '{}'
+'''
+
+select_phone = '''
+SELECT Phone
+FROM Users
+WHERE TG_ID ='{}'
 '''
