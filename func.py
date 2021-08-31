@@ -52,7 +52,7 @@ def start(update,context):
     name = update.message.from_user.first_name
     conn = sqlite3.connect('identifier.sqlite')
     cur = conn.cursor()
-    cur.execute(update_stage_in.format(999,user_id))
+    cur.execute(update_stage_in.format(1001,user_id))
     id_in = cur.execute(id_in_table.format(user_id)).fetchall()
     print(id_in)
     conn.commit()
